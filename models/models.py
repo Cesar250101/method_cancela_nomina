@@ -11,6 +11,8 @@ class NewModule(models.Model):
 
     @api.multi
     def action_payslip_cancel(self):
+        asiento=self.env['account.move'].search([('id','=',self.move_id.id)])
+        asiento.button_cancel()
         if self.move_id.state=='posted':
             raise UserError(("Debe cancelar el asiento contable primero!"))
         return self.write({'state': 'draft'})
